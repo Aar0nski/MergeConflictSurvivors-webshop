@@ -9,7 +9,8 @@ body {
 header {
   background-color: rgb(102, 169, 201);
   margin: 0;
-  padding: 1rem;
+  padding: 2rem;
+  font-size: 25px;
 }
 nav {
   /* margin: 0 3em; */
@@ -34,7 +35,7 @@ nav {
   padding: 1rem;
   max-width: 400px;
   font-style: italic;
-  margin-top: 0.5em;
+  margin: auto;
 }
 
 button {
@@ -42,7 +43,28 @@ button {
   cursor: pointer;
   margin: 0.5em;
 }
-.joke-container {
+.page-layout .joke-container {
   border-top: solid 1px rgb(102, 169, 201);
   margin: 2.5em;
+}
+
+/* ---- Checkout ----  */
+
+.prod-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 0.5px solid black;
+  padding: 2em;
+}
+.place-end {
+  text-align: end;
+}
+.buy-container {
+  display: flex;
+  justify-content: space-between;
+  button {
+    background-color: rgb(137, 197, 224);
+    border: 1px solid black;
+    border-radius: 0.3em;
+  }
 }
