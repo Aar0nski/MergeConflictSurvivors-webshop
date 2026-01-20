@@ -47,7 +47,12 @@ button {
   border-top: solid 1px rgb(102, 169, 201);
   margin: 2.5em;
 }
-
+.center {
+  text-align: center;
+}
+.Description{
+  max-width: 800px;
+}
 /* ---- Checkout ----  */
 
 .prod-card {
