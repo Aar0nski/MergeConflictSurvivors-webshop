@@ -56,12 +56,20 @@ button {
   border: 0.5px solid black;
   padding: 2em;
 }
+
+.img {
+	width: 60px;
+	place-self: center;
+}
 .place-end {
-  text-align: end;
+  p {
+	margin-right: 1em;
+	text-align: end;
+  }
 }
 .buy-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   button {
     background-color: rgb(137, 197, 224);
     border: 1px solid black;

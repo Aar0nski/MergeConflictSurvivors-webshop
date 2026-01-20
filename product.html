@@ -26,8 +26,36 @@
             width="350"
             height="350"
           />
+
+		 <button onclick="addToCart()">Add to cart</button> 
       </div>
     </section>
     <!-- Links to all 5 pages. -->
+	 <script>
+		
+		function addToCart() {
+			  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+			// Räkna id
+			let id;
+			if(cart.length === 0) {
+				id = 1; // första produkten
+			} else {
+				// ta högsta id i cart + 1
+				const maxId = Math.max(...cart.map(item => item.id));
+				id = maxId + 1;
+			}
+			
+			if(cart.length > 1) {id = id +1 }
+			const backpack = {
+				name: "Best Backpack in the World",
+				price: 200,
+				id: id
+			};
+			cart.push(backpack)
+
+			localStorage.setItem("cart", JSON.stringify(cart));
+		}
+	 </script>
   </body>
 </html>
