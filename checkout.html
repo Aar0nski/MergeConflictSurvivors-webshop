@@ -42,20 +42,23 @@
 
         const name = document.createElement("p");
         name.textContent = cart[0].name;
+
         const priceQtyDiv = document.createElement("div");
         const total = document.getElementById("total-price");
 
         priceQtyDiv.classList.add("qty-price-container");
 
-        // create input that changes amout of backpacks in cart
+        // create input that changes quantity  of backpacks in cart
         const qty = document.createElement("input");
         qty.type = "number";
         qty.value = quantity;
         qty.style.maxWidth = "3em";
+
         const unit = document.createElement("span");
         unit.textContent = "psc";
         qty.style.padding = "0.3em";
 
+        // Controls/updates the number of items in the cart
         qty.addEventListener("input", () => {
           let newQty = Number(qty.value);
 
@@ -63,6 +66,7 @@
             qty.value = 0;
             newQty = 0;
           }
+          //Check if the cart is empty and update the DOM
           if (newQty === 0) {
             localStorage.removeItem("cart");
             div.remove();
@@ -91,6 +95,7 @@
         const totalP = document.createElement("p");
         totalP.textContent = `${cart[0].price * quantity}$`;
 
+        //adds created elements to DOM
         priceQtyDiv.appendChild(qty);
         priceQtyDiv.appendChild(unit);
         priceQtyDiv.appendChild(price);

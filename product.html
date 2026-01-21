@@ -33,6 +33,7 @@
 
     <script>
       function addToCart() {
+        // Retrieve the cart from localStorage, or create an empty array if it doesn't exist
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         let id;
@@ -51,9 +52,13 @@
           price: 200,
           id: id,
         };
+
+        // Save the updated cart back to localStorage
         cart.push(backpack);
 
         localStorage.setItem("cart", JSON.stringify(cart));
+
+        // show feedback to user that item was added
         const toast = document.querySelector(".toast");
 
         toast.classList.add("show");
