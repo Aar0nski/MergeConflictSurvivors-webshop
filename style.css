@@ -61,6 +61,11 @@ button {
 
 .toast.show {
   opacity: 1;
+.center {
+  text-align: center;
+}
+.Description{
+  max-width: 800px;
 }
 /* ---- Checkout ----  */
 
