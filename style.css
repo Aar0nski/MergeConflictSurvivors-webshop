@@ -42,12 +42,26 @@ button {
   padding: 0.5rem;
   cursor: pointer;
   margin: 0.5em;
+  background-color: rgb(137, 197, 224);
+  border: 1px solid black;
+  border-radius: 0.3em;
 }
 .page-layout .joke-container {
   border-top: solid 1px rgb(102, 169, 201);
   margin: 2.5em;
 }
+.add-btn {
+  place-self: center;
+}
+.toast {
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin: auto;
+}
 
+.toast.show {
+  opacity: 1;
+}
 /* ---- Checkout ----  */
 
 .prod-card {
@@ -58,21 +72,15 @@ button {
 }
 
 .img {
-	width: 60px;
-	place-self: center;
+  width: 60px;
+  place-self: center;
 }
-.place-end {
-  p {
-	margin-right: 1em;
-	text-align: end;
-  }
+.qty-price-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
 }
 .buy-container {
   display: flex;
   justify-content: flex-end;
-  button {
-    background-color: rgb(137, 197, 224);
-    border: 1px solid black;
-    border-radius: 0.3em;
-  }
 }

@@ -20,42 +20,48 @@
         <p>This is the best backpack in the world!</p>
         <p>Price = 200$</p>
         <p>Take it or leave it</p>
-          <img
-            src="images/Ryggsäck.jpg"
-            alt="Ryggsäck"
-            width="350"
-            height="350"
-          />
-
-		 <button onclick="addToCart()">Add to cart</button> 
+        <img
+          src="images/Ryggsäck.jpg"
+          alt="Ryggsäck"
+          width="350"
+          height="350"
+        />
       </div>
+      <button class="add-btn" onclick="addToCart()">Add to cart</button>
+      <p class="toast" id="toast">Added backpack to cart</p>
     </section>
-    <!-- Links to all 5 pages. -->
-	 <script>
-		
-		function addToCart() {
-			  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-			// Räkna id
-			let id;
-			if(cart.length === 0) {
-				id = 1; // första produkten
-			} else {
-				// ta högsta id i cart + 1
-				const maxId = Math.max(...cart.map(item => item.id));
-				id = maxId + 1;
-			}
-			
-			if(cart.length > 1) {id = id +1 }
-			const backpack = {
-				name: "Best Backpack in the World",
-				price: 200,
-				id: id
-			};
-			cart.push(backpack)
+    <script>
+      function addToCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-			localStorage.setItem("cart", JSON.stringify(cart));
-		}
-	 </script>
+        let id;
+        if (cart.length === 0) {
+          id = 1;
+        } else {
+          const maxId = Math.max(...cart.map((item) => item.id));
+          id = maxId + 1;
+        }
+
+        if (cart.length > 1) {
+          id = id + 1;
+        }
+        const backpack = {
+          name: "Best Backpack in the World",
+          price: 200,
+          id: id,
+        };
+        cart.push(backpack);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        const toast = document.querySelector(".toast");
+
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 1000);
+      }
+    </script>
   </body>
 </html>

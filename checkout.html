@@ -18,64 +18,96 @@
       <div>
         <h1>Checkout</h1>
 
-       
-        <div id="cart">
-		
-			
-        </div>
+        <div id="cart"></div>
 
         <div class="buy-container" id="total-price">
-         
-		  <!-- ändra så den är dynamisk  -->
           <button>Buy</button>
         </div>
       </div>
     </section>
-	<script>
-		const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    <script>
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+      const cartDiv = document.getElementById("cart");
 
-		const cartDiv = document.getElementById("cart");
-		
-		if (cart.length > 0) {
-	const quantity = cart.length
-  const div = document.createElement("div");
-  div.classList.add("prod-card");
+      if (cart.length > 0) {
+        const quantity = cart.length;
+        const div = document.createElement("div");
+        div.classList.add("prod-card");
 
-  const img = document.createElement("img");
-  img.src = "images/Ryggsäck.jpg";
-  img.alt = "backpack";
-  img.classList.add("img");
+        const img = document.createElement("img");
+        img.src = "images/Ryggsäck.jpg";
+        img.alt = "backpack";
+        img.classList.add("img");
 
-  const name = document.createElement("p");
-  name.textContent = cart[0].name;
- const priceQtyDiv = document.createElement("div")
- priceQtyDiv.style.display = "flex"
-  const qty = document.createElement("p");
-  qty.textContent = `${quantity}psc/ `;
-  const price = document.createElement("p");
+        const name = document.createElement("p");
+        name.textContent = cart[0].name;
+        const priceQtyDiv = document.createElement("div");
+        const total = document.getElementById("total-price");
 
-  priceQtyDiv.classList.add("place-end");
-  price.textContent = `${cart[0].price}$`;
+        priceQtyDiv.classList.add("qty-price-container");
 
-  const total = document.getElementById("total-price")
-  const totalP = document.createElement("p")
-  totalP.textContent =`${cart[0].price * quantity}$`
-  
+        // create input that changes amout of backpacks in cart
+        const qty = document.createElement("input");
+        qty.type = "number";
+        qty.value = quantity;
+        qty.style.maxWidth = "3em";
+        const unit = document.createElement("span");
+        unit.textContent = "psc";
+        qty.style.padding = "0.3em";
 
-  priceQtyDiv.appendChild(qty)
-  priceQtyDiv.appendChild(price)
+        qty.addEventListener("input", () => {
+          let newQty = Number(qty.value);
 
-  div.appendChild(img);
-  div.appendChild(name);
-  div.appendChild(priceQtyDiv);
+          if (newQty < 0) {
+            qty.value = 0;
+            newQty = 0;
+          }
+          if (newQty === 0) {
+            localStorage.removeItem("cart");
+            div.remove();
+            total.remove();
+            totalP.textContent = "0$";
 
-  cartDiv.appendChild(div);
-  total.prepend(totalP)
-  console.log(cart);
-  
-}
-;
-	</script>
+            const emptyCart = document.createElement("p");
+            emptyCart.textContent = "Varukorgen är tom";
+            cartDiv.appendChild(emptyCart);
+            return;
+          }
+
+          if (newQty < cart.length) {
+            cart.splice(newQty);
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          totalP.textContent = `${cart[0].price * newQty}$`;
+        });
+
+        const price = document.createElement("p");
+
+        price.textContent = `${cart[0].price}$`;
+
+        const totalP = document.createElement("p");
+        totalP.textContent = `${cart[0].price * quantity}$`;
+
+        priceQtyDiv.appendChild(qty);
+        priceQtyDiv.appendChild(unit);
+        priceQtyDiv.appendChild(price);
+
+        div.appendChild(img);
+        div.appendChild(name);
+
+        div.appendChild(priceQtyDiv);
+
+        cartDiv.appendChild(div);
+        total.prepend(totalP);
+        console.log(cart);
+      } else {
+        let emtyCart = document.createElement("p");
+        emtyCart.textContent = "Varukorgen är tom";
+        cartDiv.appendChild(emtyCart);
+      }
+    </script>
   </body>
 </html>
