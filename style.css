@@ -120,9 +120,11 @@ button {
 /* ===== Checkout ===== */
 .prod-card {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: auto 1fr auto;  
   border: 0.5px solid black;
   padding: 2em;
+  align-items: center;  
+  gap: 1em;  
   .img {
     width: 60px;
     place-self: center;
@@ -181,9 +183,10 @@ button {
 
 #total-price p {
   margin: 0.3em 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
+  gap: 0.5em;
 }
 
 #total-price p:last-of-type {
@@ -195,6 +198,8 @@ button {
 
 #subtotal, #vat, #total {
   font-weight: bold;
+  text-align: right;
+  min-width: 100px;
 }
 
 #total-price button {
@@ -202,6 +207,11 @@ button {
   min-width: 120px;
   font-size: 1.1em;
   margin-top: 0.5em;
+}
+
+#currency-subtotal, #currency-vat, #currency-total {
+  text-align: left;
+  min-width: 50px;
 }
 
 /* Dark mode support for select */
