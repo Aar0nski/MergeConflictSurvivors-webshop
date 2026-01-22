@@ -25,7 +25,24 @@
         <div id="cart"></div>
 
         <div class="buy-container" id="total-price">
-          <button>Buy</button>
+          <label for="country">Välj land:</label>
+          <select id="country">
+            <option value="25" data-currency="SEK" data-symbol="kr" data-rate="11.50">Sverige (25%)</option>
+            <option value="25" data-currency="DKK" data-symbol="kr" data-rate="7.45">Danmark (25%)</option>
+            <option value="24" data-currency="EUR" data-symbol="€" data-rate="1">Finland (24%)</option>
+            <option value="25" data-currency="NOK" data-symbol="kr" data-rate="11.80">Norge (25%)</option>
+            <option value="21" data-currency="EUR" data-symbol="€" data-rate="1">Spanien (21%)</option>
+            <option value="23" data-currency="PLN" data-symbol="zł" data-rate="4.30">Polen (23%)</option>
+            <option value="19" data-currency="EUR" data-symbol="€" data-rate="1">Tyskland (19%)</option>
+            <option value="20" data-currency="EUR" data-symbol="€" data-rate="1">Frankrike (20%)</option>
+            <option value="21" data-currency="EUR" data-symbol="€" data-rate="1">Nederländerna (21%)</option>
+            <option value="23" data-currency="EUR" data-symbol="€" data-rate="1">Italien (23%)</option>
+          </select>
+          
+          <p>Delsumma: <span id="subtotal">0</span> <span id="currency-subtotal">EUR</span></p>
+          <p>Moms: <span id="vat">0</span> <span id="currency-vat">EUR</span></p>
+          <p><strong>Totalt: <span id="total">0</span> <span id="currency-total">EUR</span></strong></p>
+          <button>Köp</button>
         </div>
       </div>
     </section>
@@ -52,15 +69,48 @@
 
         priceQtyDiv.classList.add("qty-price-container");
 
-        // create input that changes quantity  of backpacks in cart
+        // create input that changes quantity of backpacks in cart
         const qty = document.createElement("input");
         qty.type = "number";
         qty.value = quantity;
         qty.style.maxWidth = "3em";
 
         const unit = document.createElement("span");
-        unit.textContent = "psc";
+        unit.textContent = "pcs";
         qty.style.padding = "0.3em";
+
+        const priceSpan = document.createElement("span");
+        priceSpan.id = "price-display";
+
+        // Function to update VAT calculation and currency
+        function updateVAT() {
+          const currentQty = Number(qty.value);
+          const countrySelect = document.getElementById('country');
+          const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+          const vatRate = parseFloat(selectedOption.value) / 100;
+          const currency = selectedOption.getAttribute('data-currency');
+          const symbol = selectedOption.getAttribute('data-symbol');
+          const exchangeRate = parseFloat(selectedOption.getAttribute('data-rate'));
+          
+          // Convert price from EUR to selected currency
+          const priceInEUR = cart[0].price;
+          const convertedPrice = priceInEUR * exchangeRate;
+          const subtotal = convertedPrice * currentQty;
+          const vat = subtotal * vatRate;
+          const totalWithVat = subtotal + vat;
+
+          document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+          document.getElementById('vat').textContent = vat.toFixed(2);
+          document.getElementById('total').textContent = totalWithVat.toFixed(2);
+          
+          // Update currency symbols
+          document.getElementById('currency-subtotal').textContent = currency;
+          document.getElementById('currency-vat').textContent = currency;
+          document.getElementById('currency-total').textContent = currency;
+          
+          // Update price display in product card
+          priceSpan.textContent = `${convertedPrice.toFixed(2)} ${symbol}`;
+        }
 
         // Controls/updates the number of items in the cart
         qty.addEventListener("input", () => {
@@ -75,7 +125,6 @@
             localStorage.removeItem("cart");
             div.remove();
             total.remove();
-            totalP.textContent = "0$";
 
             const emptyCart = document.createElement("p");
             emptyCart.textContent = "Varukorgen är tom";
@@ -85,38 +134,40 @@
 
           if (newQty < cart.length) {
             cart.splice(newQty);
+          } else {
+            while (cart.length < newQty) {
+              cart.push(cart[0]);
+            }
           }
 
           localStorage.setItem("cart", JSON.stringify(cart));
-
-          totalP.textContent = `${cart[0].price * newQty}$`;
+          updateVAT();
         });
 
-        const price = document.createElement("p");
-
-        price.textContent = `${cart[0].price}$`;
-
-        const totalP = document.createElement("p");
-        totalP.textContent = `${cart[0].price * quantity}$`;
+        // Update VAT when country changes
+        document.getElementById('country').addEventListener('change', updateVAT);
 
         //adds created elements to DOM
         priceQtyDiv.appendChild(qty);
         priceQtyDiv.appendChild(unit);
-        priceQtyDiv.appendChild(price);
+        priceQtyDiv.appendChild(priceSpan);
 
         div.appendChild(img);
         div.appendChild(name);
-
         div.appendChild(priceQtyDiv);
 
         cartDiv.appendChild(div);
-        total.prepend(totalP);
+        
+        // Initial VAT calculation
+        updateVAT();
+        
         console.log(cart);
       } else {
         let emtyCart = document.createElement("p");
         emtyCart.textContent = "Varukorgen är tom";
         cartDiv.appendChild(emtyCart);
       }
+      
       document.addEventListener("DOMContentLoaded", () => {
         const btn = document.getElementById("themeToggle");
         if (!btn) return;
