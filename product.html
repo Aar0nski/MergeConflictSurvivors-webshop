@@ -1,24 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product</title>
-</head>
-<body>
-<h1>Product</h1>
-<p>Welcome to this page (Product)</p>
-<a href="https://www.google.com/imghp" target="_blank">
-    <img src="images/image3.jpg" alt="Small image" width="150" height="150">
-</a>
-<!-- Links to all 5 pages. -->
-<nav>
-    <a href="index.html">Home</a> |
-    <a href="checkout.html">Products</a> |
-    <a href="product.html">Product</a> |
-    <a href="about.html">About</a> |
-    <a href="contact.html">Contact</a>
-</nav>
-</body>
-</html>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="index.html">Home</a> | <a href="checkout.html">Checkout</a> |
+        <a href="product.html">Product</a> | <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a>
 
+        <button id="themeToggle" class="theme-toggle" type="button">
+          🌙 Dark
+        </button>
+      </nav>
+    </header>
+    <section class="page-layout">
+      <div class="center">
+        <h1>Best backpack in the world!</h1>
+        <p>This is the best backpack in the world!</p>
+        <p>Price: 200$</p>
+        <p>Take it or leave it</p>
+        <img
+          src="images/Ryggsäck.jpg"
+          alt="Ryggsäck"
+          width="350"
+          height="350"
+        />
+      </div>
+      <button class="add-btn" onclick="addToCart()">Add to cart</button>
+      <p class="toast" id="toast">Added backpack to cart</p>
+      <div class="Description">
+        <p>
+          A backpack is freedom with shoulder straps— this one is defiance. It
+          is a sealed ecosystem, a mobile bunker disguised as fabric. Two
+          zippers away from survival, ambition, nostalgia, and whatever keeps
+          you alive when the plan collapses. It waits by the door like it knows
+          something you don’t. Like it’s already run the simulations and decided
+          you make it. It carries laptops, love letters, emergency rations, and
+          the last soft things you own. It holds your work, your past, your exit
+          strategy. Chargers that refuse to die. Notebooks full of ideas that
+          could change everything or nothing—but deserve protection either way.
+          This backpack does not flinch. It is bulletproof. Fireproof. Built to
+          absorb impact, heat, and the consequences of bad luck. When the world
+          spikes, burns, or breaks into noise, it stays intact. It doesn’t
+          panic. It doesn’t tear. It stands between you and catastrophe and
+          says, No. Not today.
+        </p>
+      </div>
+    </section>
+
+    <script>
+      function addToCart() {
+        // Retrieve the cart from localStorage, or create an empty array if it doesn't exist
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let id;
+        if (cart.length === 0) {
+          id = 1;
+        } else {
+          const maxId = Math.max(...cart.map((item) => item.id));
+          id = maxId + 1;
+        }
+
+        if (cart.length > 1) {
+          id = id + 1;
+        }
+        const backpack = {
+          name: "Best Backpack in the World",
+          price: 200,
+          id: id,
+        };
+
+        // Save the updated cart back to localStorage
+        cart.push(backpack);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // show feedback to user that item was added
+        const toast = document.querySelector(".toast");
+
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 1000);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.getElementById("themeToggle");
+        if (!btn) return;
+
+        function updateButton() {
+          const isDark = document.body.classList.contains("dark");
+          btn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+        }
+
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") document.body.classList.add("dark");
+
+        updateButton();
+
+        btn.addEventListener("click", () => {
+          const isDark = document.body.classList.toggle("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+          updateButton();
+        });
+      });
+    </script>
+  </body>
+</html>
